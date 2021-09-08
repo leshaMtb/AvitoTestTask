@@ -92,10 +92,12 @@ extension ViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EmployeeCollectionViewCell.self), for: indexPath) as! EmployeeCollectionViewCell
-        let dataSource = networkManager.welcome!.company.employees[indexPath.row]
-        cell.nameLabel.text = "Name: \(dataSource.name)"
-        cell.phoneNumberLabel.text = "Phone number: \(dataSource.phoneNumber)"
-        cell.skillsLabel.text = "Skills: \(dataSource.skills.joined(separator: ", "))"
+        var dataSource = networkManager.welcome!.company.employees
+        dataSource.sort(by: {$0.name < $1.name})
+        let dataSourceAtIndexPath = dataSource[indexPath.row]
+        cell.nameLabel.text = "Name: \(dataSourceAtIndexPath.name)"
+        cell.phoneNumberLabel.text = "Phone number: \(dataSourceAtIndexPath.phoneNumber)"
+        cell.skillsLabel.text = "Skills: \(dataSourceAtIndexPath.skills.joined(separator: ", "))"
         title = networkManager.welcome!.company.name
         return cell
     }
