@@ -25,13 +25,33 @@ class NetworkManager: NetworkOutput {
             reload()
         }
     }
+    //for save date of request
+    var dateOfGetJsonSince1970: Double? {
+        get {
+            return UserDefaults.standard.double(forKey: "123")
+        }
+        set {
+            let defaults = UserDefaults.standard
+            if let new = newValue {
+                defaults.set(new, forKey: "123")
+            } else {
+                defaults.removeObject(forKey: "123")
+            }
+        }
+    }
 
     func getJson() {
+
         guard  let url = URL(string: "https://run.mocky.io/v3/1d1cb4ec-73db-4762-8c4b-0b8aa3cecd4c") else {
             return
         }
         var request = URLRequest(url: url)
         request.cachePolicy = .returnCacheDataElseLoad
+
+        //if the request was more than an hour ago, then clear the cache
+        if NSDate().timeIntervalSince1970 - dateOfGetJsonSince1970! > 3600 {
+            session.configuration.urlCache?.removeAllCachedResponses()
+        }
 
         if let cacheResponse = session.configuration.urlCache?.cachedResponse(for: request) {
             do {
@@ -51,6 +71,7 @@ class NetworkManager: NetworkOutput {
                 do {
                     let decoder = JSONDecoder()
                     self?.welcome = try decoder.decode(Welcome.self, from: data)
+                    self?.dateOfGetJsonSince1970 = NSDate().timeIntervalSince1970
                     print("from server")
                 } catch {
                     print(error.localizedDescription)
