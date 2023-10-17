@@ -32,3 +32,9 @@
 
 [![2021-09-08-11-59-52.png](https://i.postimg.cc/x8p4gXQB/2021-09-08-11-59-52.png)](https://postimg.cc/m1Mjg2tS)
 
+### Ответ после ревью Авито:
+<img width="732" alt="image" src="https://github.com/leshaMtb/AvitoTestTask/assets/76536708/e1822c84-2d5a-4ebe-8cb1-073082b278df">
+
+
+
+
